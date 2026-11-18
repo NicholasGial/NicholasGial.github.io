@@ -1,6 +1,6 @@
 from pathlib import Path
 from PIL import Image, ImageOps
-import json, shutil, re, html
+import json, re, html
 root=Path(__file__).resolve().parents[1]
 photos=json.loads((root/'content/photos.json').read_text())
 out=root/'dist/assets'; out.mkdir(parents=True,exist_ok=True)
@@ -15,7 +15,6 @@ for photo in photos:
     print(photo['id'])
 with Image.open(root.parent/'profile_photo.jpg') as raw:
     im=ImageOps.exif_transpose(raw).convert('RGB'); im.thumbnail((900,1100)); im.save(out/'portrait.webp','WEBP',quality=88)
-shutil.copyfile(root.parent/'Nicholas_Gialouris_CV.pdf',out/'Nicholas_Gialouris_CV.pdf')
 (root/'dist/photos.json').write_text(json.dumps(photos,indent=2)+'\n')
 page_path=root/'dist/index.html'
 page=page_path.read_text()

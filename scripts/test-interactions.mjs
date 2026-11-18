@@ -20,7 +20,7 @@ async function setup(hash='',reduced=false){
  const listeners={};const location={hash};let stack=[{hash,state:null}],at=0;
  const history={state:null,pushState(state,_,hash){stack=stack.slice(0,at+1);stack.push({state,hash});at++;this.state=state;location.hash=hash;},replaceState(state,_,hash){stack[at]={state,hash};this.state=state;location.hash=hash;},back(){if(at){at--;this.state=stack[at].state;location.hash=stack[at].hash;listeners.popstate?.();}},forward(){if(at<stack.length-1){at++;this.state=stack[at].state;location.hash=stack[at].hash;listeners.popstate?.();}}};
  const window={requestIdleCallback(){},addEventListener(name,fn){listeners[name]=fn;},scrollTo(){}};
- const context={document:{querySelector:el,querySelectorAll:s=>s==='[data-photo]'?links:[],getElementById:()=>null,body:new Element()},matchMedia:()=>({matches:reduced,addEventListener(){}}),localStorage:{getItem(){return null;},setItem(){}},window,requestIdleCallback(){},setTimeout,fetch:async()=>({ok:true,json:async()=>photos}),history,location,scrollY:123,Date,console};
+ const context={document:{querySelector:el,querySelectorAll:s=>s==='[data-photo]'?links:[],getElementById:()=>null,body:new Element()},matchMedia:()=>({matches:reduced,addEventListener(){}}),localStorage:{getItem(){return null;},setItem(){}},window,requestIdleCallback(){},setTimeout,fetch:async()=>({ok:true,json:async()=>photos}),history,location,scrollY:123,innerHeight:800,IntersectionObserver:class{observe(){}unobserve(){}},Date,console};
  vm.runInNewContext(source,context);
  await new Promise(resolve=>setImmediate(resolve));
  return {el,links,history,location};

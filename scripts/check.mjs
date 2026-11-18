@@ -7,7 +7,7 @@ assert.equal(new Set(ids).size,ids.length,'Duplicate HTML IDs');
 const refs=[...html.matchAll(/(?:href|src)="([^"]+)"/g)].map(m=>m[1]);
 for(const ref of refs){
  if(ref.startsWith('#'))assert(ids.includes(ref.slice(1)),`Missing anchor ${ref}`);
- else if(!/^(https?:|mailto:)/.test(ref))await access(`dist/${ref}`);
+ else if(!/^(https?:|mailto:)/.test(ref))await access(`dist/${ref.split('?')[0]}`);
 }
 const photos=JSON.parse(await readFile('content/photos.json','utf8'));
 assert.equal(new Set(photos.map(p=>p.id)).size,photos.length,'Duplicate photo ids');
@@ -18,7 +18,7 @@ for(const p of photos){
  assert(p.alt?.length>10,`Missing alt text ${p.id}`);
  for(const size of [640,1200,2000])assert((await stat(`dist/assets/${p.id}-${size}.webp`)).size>0);
 }
-for(const file of ['dist/app.js','dist/scene.js'])execFileSync(process.execPath,['--check',file]);
+for(const file of ['dist/app.js','dist/scene.js','dist/field.js'])execFileSync(process.execPath,['--check',file]);
 const vendor=await readFile('dist/vendor/three.module.min.js','utf8');
 assert(vendor.includes('./three.core.min.js'));await access('dist/vendor/three.core.min.js');
 console.log(`PASS: ${ids.length} unique anchors, ${refs.length} references, ${photos.length} photographs with 3 sizes, manifest consistency, JavaScript syntax and local Three.js dependency.`);

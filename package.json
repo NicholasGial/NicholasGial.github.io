@@ -4,9 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "python3 -m http.server 5173 --bind 127.0.0.1 --directory dist",
+    "dev": "cd dist && python3 -c \"import http.server as h; H=h.SimpleHTTPRequestHandler; e=H.end_headers; H.end_headers=lambda s:(s.send_header('Cache-Control','no-store'),e(s))[1]; h.test(H,bind='127.0.0.1',port=5173)\"",
     "check": "node scripts/check.mjs",
     "prepare:vendor": "node scripts/vendor.mjs"
   },
-  "dependencies": { "three": "0.181.2" }
+  "dependencies": {
+    "three": "0.181.2"
+  }
 }
