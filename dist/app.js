@@ -16,7 +16,7 @@ updateMotion();
 motionButton.addEventListener('click',()=>{paused=!paused;manualMotion=paused;try{localStorage.setItem('ng-motion',paused?'paused':'playing');}catch{}updateMotion();});
 reducedMotion.addEventListener('change',()=>{paused=reducedMotion.matches||manualMotion===true;updateMotion();});
 // Lazily imported modules are not refreshed by a reload; bump VERSION when scene.js or field.js change.
-const VERSION='?v=11';
+const VERSION='?v=12';
 const loadScene=()=>import('./scene.js'+VERSION).then(({createLattice})=>{scene=createLattice(document.querySelector('#lattice'),paused,step=>{document.querySelector('#scene-step').textContent=step;});}).catch(()=>{document.querySelector('.lattice-wrap').classList.remove('ready');motionButton.hidden=true;});
 if('requestIdleCallback' in window)requestIdleCallback(loadScene,{timeout:1800});else setTimeout(loadScene,250);
 
