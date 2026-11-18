@@ -47,3 +47,6 @@ Before calling the visual design final, inspect desktop and phone layouts in a r
 
 ## Hosting
 
+`.github/workflows/pages.yml` publishes `dist/` to GitHub Pages on every push to `main` (repository Settings > Pages > Source must be "GitHub Actions"). The original high-resolution photo library and the CV are not part of this repository.
+
+After the site has an address, add an absolute `og:image` meta tag to `dist/index.html` for link previews; it was removed because it pointed at a previous host.
